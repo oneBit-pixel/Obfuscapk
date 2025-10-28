@@ -15,7 +15,6 @@ services:
       - ./tools/android-sdk:/android-sdk-linux
       # Obfuscapk 源代码映射
       - ./Obfuscapk/obfuscapk:/Obfuscapk/obfuscapk
-      - ./Obfuscapk/requirements.txt:/Obfuscapk/requirements.txt
     environment:
       - ANDROID_HOME=/android-sdk-linux
       - BUILD_TOOLS_VERSION=34.0.0
