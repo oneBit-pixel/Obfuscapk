@@ -148,7 +148,7 @@ class Apktool(object):
             "b",
             "--frame-path",
             tempfile.gettempdir(),
-            "--force-all",
+            "--force",
             source_dir_path,
             "-o",
             output_apk_path,
