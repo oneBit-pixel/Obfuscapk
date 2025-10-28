@@ -145,10 +145,9 @@ class Apktool(object):
 
         build_cmd: List[str] = [
             self.apktool_path,
-            "d",
+            "b",
             "--frame-path",
             tempfile.gettempdir(),
-            "b",
             "--force-all",
             source_dir_path,
             "-o",
