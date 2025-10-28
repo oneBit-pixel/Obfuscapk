@@ -1,6 +1,6 @@
 FROM python:3.11.1-slim-bullseye
 
-ENV APKTOOL_VERSION="2.9.0"
+ENV APKTOOL_VERSION="2.12.1"
 ENV ANDROID_HOME="/android-sdk-linux"
 ENV BUILD_TOOLS_VERSION="34.0.0"
 ENV PATH="${PATH}:${ANDROID_HOME}/tools/bin:${ANDROID_HOME}/cmdline-tools/bin:${ANDROID_HOME}/build-tools/${BUILD_TOOLS_VERSION}"
@@ -27,11 +27,11 @@ RUN apt update && \
     apt autoremove --purge -y && apt clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # Copy requirements and install.
-#COPY ./requirements.txt /Obfuscapk/
+COPY ./requirements.txt /Obfuscapk/
 RUN python3 -m pip install --no-cache-dir -r /Obfuscapk/requirements.txt
 
 # Copy the needed files.
-#COPY ./obfuscapk/ /Obfuscapk/obfuscapk/
+COPY ./obfuscapk/ /Obfuscapk/obfuscapk/
 
 # Set the working directory (to be used when mounting files from the host).
 WORKDIR /workdir
