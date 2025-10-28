@@ -90,7 +90,7 @@ class Apktool(object):
         ]
 
         if force:
-            decode_cmd.insert(4, "--force")
+            decode_cmd.append("--force")
 
         try:
             self.logger.info(
