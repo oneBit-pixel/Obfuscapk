@@ -24,12 +24,14 @@ class FieldRename(obfuscator_category.IRenameObfuscator):
         self.identifier_counter = 1
         self.identifier_map = {}
 
-    def rename_field(self, method_name: str) -> str:
-        if method_name not in self.identifier_map:
-            short_name = f"p{self.identifier_counter}"
-            self.identifier_map[method_name] = short_name
+    def rename_field(self, field_name: str) -> str:
+        if field_name not in self.identifier_map:
+            letter = chr(ord('a') + (self.identifier_counter - 1) % 26)
+            number = (self.identifier_counter - 1) // 26 + 1
+            short_name = f"{letter}{number}"
+            self.identifier_map[field_name] = short_name
             self.identifier_counter += 1
-        return self.identifier_map[method_name]
+        return self.identifier_map[field_name]
 
     def get_sdk_class_names(self, smali_files: List[str]) -> Set[str]:
         class_names: Set[str] = set()

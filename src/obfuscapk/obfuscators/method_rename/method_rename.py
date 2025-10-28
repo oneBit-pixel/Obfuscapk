@@ -23,12 +23,14 @@ class MethodRename(obfuscator_category.IRenameObfuscator):
     #     method_md5 = util.get_string_md5(method_name)
     #     return "m{0}".format(method_md5.lower()[:8])
 
-    def rename_method(self, method_name: str) -> str:
-        if method_name not in self.identifier_map:
-            short_name = f"p{self.identifier_counter}"
-            self.identifier_map[method_name] = short_name
+    def rename_method(self, field_name: str) -> str:
+        if field_name not in self.identifier_map:
+            letter = chr(ord('a') + (self.identifier_counter - 1) % 26)
+            number = (self.identifier_counter - 1) // 26 + 1
+            short_name = f"{letter}{number}"
+            self.identifier_map[field_name] = short_name
             self.identifier_counter += 1
-        return self.identifier_map[method_name]
+        return self.identifier_map[field_name]
 
     def rename_method_declarations(
             self,

@@ -38,7 +38,10 @@ class ClassRename(obfuscator_category.IRenameObfuscator):
 
     def encrypt_identifier(self, identifier: str) -> str:
         if identifier not in self.identifier_map:
-            short_name = f"p{self.identifier_counter}"
+            # 只用一个字母加数字，26个字母循环
+            letter = chr(ord('a') + (self.identifier_counter - 1) % 26)
+            number = (self.identifier_counter - 1) // 26 + 1
+            short_name = f"{letter}{number}"
             self.identifier_map[identifier] = short_name
             self.identifier_counter += 1
         return self.identifier_map[identifier]
