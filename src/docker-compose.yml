@@ -1,0 +1,26 @@
+services:
+  obfuscapk:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: obfuscapk
+    working_dir: /workdir
+    volumes:
+      # 工作目录映射
+      - ./workdir:/workdir
+      # 工具目录映射 - 所有工具文件都放在宿主机的 tools 目录下
+      - ./tools/apktool:/usr/local/bin/apktool
+      - ./tools/apktool.jar:/usr/local/bin/apktool.jar
+      - ./tools/BundleDecompiler.jar:/usr/local/bin/BundleDecompiler.jar
+      - ./tools/android-sdk:/android-sdk-linux
+      # Obfuscapk 源代码映射
+      - ./Obfuscapk/obfuscapk:/Obfuscapk/obfuscapk
+      - ./Obfuscapk/requirements.txt:/Obfuscapk/requirements.txt
+    environment:
+      - ANDROID_HOME=/android-sdk-linux
+      - BUILD_TOOLS_VERSION=34.0.0
+      - PATH=${PATH}:${ANDROID_HOME}/tools/bin:${ANDROID_HOME}/cmdline-tools/bin:${ANDROID_HOME}/build-tools/${BUILD_TOOLS_VERSION}
+      - PYTHONPATH=/Obfuscapk
+    entrypoint: ["python3", "-m", "obfuscapk.cli"]
+    stdin_open: true
+    tty: true
