@@ -27,11 +27,11 @@ RUN apt update && \
     apt autoremove --purge -y && apt clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # Copy requirements and install.
-COPY ./requirements.txt /Obfuscapk/
+#COPY ./requirements.txt /Obfuscapk/
 RUN python3 -m pip install --no-cache-dir -r /Obfuscapk/requirements.txt
 
 # Copy the needed files.
-COPY ./obfuscapk/ /Obfuscapk/obfuscapk/
+#COPY ./obfuscapk/ /Obfuscapk/obfuscapk/
 
 # Set the working directory (to be used when mounting files from the host).
 WORKDIR /workdir
