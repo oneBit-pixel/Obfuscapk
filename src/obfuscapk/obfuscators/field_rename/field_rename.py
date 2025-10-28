@@ -6,7 +6,7 @@ from typing import List, Set
 from obfuscapk import obfuscator_category
 from obfuscapk import util
 from obfuscapk.obfuscation import Obfuscation
-
+from obfuscapk.ShortNameGenerator import ShortNameGenerator
 
 class FieldRename(obfuscator_category.IRenameObfuscator):
     def __init__(self):
@@ -21,17 +21,11 @@ class FieldRename(obfuscator_category.IRenameObfuscator):
 
         self.max_fields_to_add = 0
         self.added_fields = 0
-        self.identifier_counter = 1
-        self.identifier_map = {}
+
+        self.gen = ShortNameGenerator()
 
     def rename_field(self, field_name: str) -> str:
-        if field_name not in self.identifier_map:
-            letter = chr(ord('a') + (self.identifier_counter - 1) % 26)
-            number = (self.identifier_counter - 1) // 26 + 1
-            short_name = f"{letter}{number}"
-            self.identifier_map[field_name] = short_name
-            self.identifier_counter += 1
-        return self.identifier_map[field_name]
+        return self.gen.rename_field(field_name)
 
     def get_sdk_class_names(self, smali_files: List[str]) -> Set[str]:
         class_names: Set[str] = set()

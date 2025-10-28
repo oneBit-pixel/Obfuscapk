@@ -33,18 +33,11 @@ class ClassRename(obfuscator_category.IRenameObfuscator):
 
         # Will be populated before running the class rename obfuscator.
         self.class_name_to_smali_file: dict = {}
-        self.identifier_counter = 1
-        self.identifier_map = {}
+
+        self.gen = ShortNameGenerator()
 
     def encrypt_identifier(self, identifier: str) -> str:
-        if identifier not in self.identifier_map:
-            # 只用一个字母加数字，26个字母循环
-            letter = chr(ord('a') + (self.identifier_counter - 1) % 26)
-            number = (self.identifier_counter - 1) // 26 + 1
-            short_name = f"{letter}{number}"
-            self.identifier_map[identifier] = short_name
-            self.identifier_counter += 1
-        return self.identifier_map[identifier]
+        return self.gen.rename_field(identifier)
 
     def slash_to_dot_notation_for_classes(
         self, rename_transformations: Dict[str, str]
