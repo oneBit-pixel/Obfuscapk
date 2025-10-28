@@ -10,6 +10,7 @@ from xml.etree.cElementTree import Element
 from obfuscapk import obfuscator_category
 from obfuscapk import util
 from obfuscapk.obfuscation import Obfuscation
+from obfuscapk.ShortNameGenerator import ShortNameGenerator
 
 
 class ClassRename(obfuscator_category.IRenameObfuscator):

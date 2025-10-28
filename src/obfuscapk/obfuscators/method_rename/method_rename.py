@@ -6,6 +6,7 @@ from typing import List, Set
 from obfuscapk import obfuscator_category
 from obfuscapk import util
 from obfuscapk.obfuscation import Obfuscation
+from obfuscapk.ShortNameGenerator import ShortNameGenerator
 
 
 class MethodRename(obfuscator_category.IRenameObfuscator):
