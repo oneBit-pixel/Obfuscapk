@@ -178,6 +178,7 @@ com/jcraft/jsch/
 com/jirbo/adcolony/
 com/jiubang/commerce/
 com/jumptap/
+com/kuaishou/
 com/kakao/talk/
 com/kbeanie/imagechooser/
 com/koushikdutta/async/
@@ -358,6 +359,7 @@ gnu/xml/
 hirondelle/date4j/
 im/quar/
 info/guardianproject/bouncycastle/
+io/reactivex/
 io/dcloud/
 io/fabric/sdk/
 it/gmariotti/cardslib/
@@ -371,6 +373,8 @@ javax/ws/
 java/inject
 junit/
 kankan/wheel/
+kotlin/
+kotlinx/android/
 me/apla/cordova/
 me/zhanghai/android/
 microsoft/mappoint/
