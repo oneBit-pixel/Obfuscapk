@@ -21,6 +21,8 @@ class FieldRename(obfuscator_category.IRenameObfuscator):
 
         self.max_fields_to_add = 0
         self.added_fields = 0
+        self.identifier_counter = 1
+        self.identifier_map = {}
 
     def rename_field(self, method_name: str) -> str:
         if method_name not in self.identifier_map:
