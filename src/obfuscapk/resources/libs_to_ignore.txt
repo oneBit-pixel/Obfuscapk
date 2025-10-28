@@ -19,6 +19,7 @@ cn/jpush/android/
 cn/sharesdk/
 cn/smssdk/
 cn/uc/gamesdk/
+com/airbnb/lottie/LottieAnimationView
 com/ace/universalimageloader/
 com/actionbarsherlock/
 com/activeandroid/
