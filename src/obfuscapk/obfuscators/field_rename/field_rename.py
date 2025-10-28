@@ -22,9 +22,12 @@ class FieldRename(obfuscator_category.IRenameObfuscator):
         self.max_fields_to_add = 0
         self.added_fields = 0
 
-    def rename_field(self, field_name: str) -> str:
-        field_md5 = util.get_string_md5(field_name)
-        return "f{0}".format(field_md5.lower()[:8])
+    def rename_method(self, method_name: str) -> str:
+        if method_name not in self.identifier_map:
+            short_name = f"p{self.identifier_counter}"
+            self.identifier_map[method_name] = short_name
+            self.identifier_counter += 1
+        return self.identifier_map[method_name]
 
     def get_sdk_class_names(self, smali_files: List[str]) -> Set[str]:
         class_names: Set[str] = set()

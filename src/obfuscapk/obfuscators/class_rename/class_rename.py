@@ -33,10 +33,15 @@ class ClassRename(obfuscator_category.IRenameObfuscator):
 
         # Will be populated before running the class rename obfuscator.
         self.class_name_to_smali_file: dict = {}
+        self.identifier_counter = 1
+        self.identifier_map = {}
 
     def encrypt_identifier(self, identifier: str) -> str:
-        identifier_md5 = util.get_string_md5(identifier)
-        return "p{0}".format(identifier_md5.lower()[:8])
+        if identifier not in self.identifier_map:
+            short_name = f"p{self.identifier_counter}"
+            self.identifier_map[identifier] = short_name
+            self.identifier_counter += 1
+        return self.identifier_map[identifier]
 
     def slash_to_dot_notation_for_classes(
         self, rename_transformations: Dict[str, str]
