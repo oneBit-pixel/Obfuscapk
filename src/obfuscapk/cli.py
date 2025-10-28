@@ -22,7 +22,7 @@ def get_cmd_args(args: list = None):
     parser = argparse.ArgumentParser(
         prog="python3 -m obfuscapk.cli",
         description="Obfuscate an application (.apk/.aab) without needing its "
-        "source code.",
+                    "source code.",
     )
     parser.add_argument(
         "apk_file",
@@ -37,7 +37,7 @@ def get_cmd_args(args: list = None):
         metavar="OBFUSCATOR",
         choices=obfuscators,
         help="The name of the obfuscator to use. Can be specified multiple times to "
-        "use more obfuscators (in sequence). Allowed values are: {0}".format(
+             "use more obfuscators (in sequence). Allowed values are: {0}".format(
             ", ".join(obfuscators)
         ),
         required=True,
@@ -48,8 +48,8 @@ def get_cmd_args(args: list = None):
         type=str,
         metavar="DIR",
         help="The working directory that will contain the intermediate files. By "
-        "default a directory will be created in the same directory as the input "
-        "application. If the specified directory doesn't exist, it will be created",
+             "default a directory will be created in the same directory as the input "
+             "application. If the specified directory doesn't exist, it will be created",
     )
     parser.add_argument(
         "-d",
@@ -57,13 +57,19 @@ def get_cmd_args(args: list = None):
         type=str,
         metavar="OUT_APK_OR_AAB",
         help="The path where to save the obfuscated .apk/.aab file. By default the "
-        "file will be saved in the working directory",
+             "file will be saved in the working directory",
     )
     parser.add_argument(
         "-i",
         "--ignore-libs",
         action="store_true",
         help="Ignore known third party libraries during the obfuscation operations",
+    )
+    parser.add_argument(
+        "-only",
+        "--only-libs",
+        action="store_true",
+        help="混淆文件中的文件",
     )
     parser.add_argument(
         "-p",
@@ -87,35 +93,35 @@ def get_cmd_args(args: list = None):
         type=str,
         metavar="KEYSTORE_FILE",
         help="The path to a custom keystore file to be used for signing the obfuscated "
-        ".apk file. By default a keystore bundled with this tool will be used",
+             ".apk file. By default a keystore bundled with this tool will be used",
     )
     parser.add_argument(
         "--keystore-password",
         type=str,
         metavar="KEYSTORE_PASSWORD",
         help="The password of the custom keystore used for signing the obfuscated .apk "
-        "file (needed only when specifying a custom keystore file)",
+             "file (needed only when specifying a custom keystore file)",
     )
     parser.add_argument(
         "--key-alias",
         type=str,
         metavar="KEY_ALIAS",
         help="The key alias for signing the obfuscated .apk file (needed only when "
-        "specifying a custom keystore file)",
+             "specifying a custom keystore file)",
     )
     parser.add_argument(
         "--key-password",
         type=str,
         metavar="KEY_PASSWORD",
         help="The key password for signing the obfuscated .apk file (needed only when "
-        "specifying a custom keystore file)",
+             "specifying a custom keystore file)",
     )
     parser.add_argument(
         "--ignore-packages-file",
         type=str,
         metavar="IGNORE_PACKAGES_FILE",
         help="The file containing the package names to be ignored during the "
-        "obfuscation (one package name per line)",
+             "obfuscation (one package name per line)",
     )
     return parser.parse_args(args)
 
@@ -182,6 +188,7 @@ def main():
         arguments.key_password,
         arguments.ignore_packages_file,
         arguments.use_aapt2,
+        arguments.only_libs,
     )
 
 

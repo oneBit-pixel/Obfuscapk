@@ -32,6 +32,7 @@ class Obfuscation(object):
         key_password: str = None,
         ignore_packages_file: str = None,
         use_aapt2: bool = False,
+        only_libs: bool = False,
     ):
         self.logger = logging.getLogger(__name__)
 
@@ -39,6 +40,7 @@ class Obfuscation(object):
         self.working_dir_path: str = working_dir_path
         self.obfuscated_apk_path: str = obfuscated_apk_path
         self.ignore_libs: bool = ignore_libs
+        self.only_libs: bool = only_libs
         self.interactive: bool = interactive
         self.virus_total_api_key: str = virus_total_api_key
         self.keystore_file: str = keystore_file
@@ -396,6 +398,36 @@ class Obfuscation(object):
                         if not any(
                             relative_smali_file.startswith(lib)
                             for lib in libs_to_ignore
+                        ):
+                            filtered_smali_files.append(smali_file)
+
+                    self._smali_files = filtered_smali_files
+
+                if self.only_libs:
+                    # Normalize paths for the current OS ('.join(x, "")' is used to add
+                    # a trailing slash).
+                    libs_to_only = list(
+                        map(
+                            lambda x: os.path.join(os.path.normpath(x), ""),
+                            util.get_libs_to_only(),
+                        )
+                    )
+                    filtered_smali_files = []
+
+                    for smali_file in self._smali_files:
+                        # Get the path without the initial part <root>/smali/.
+                        relative_smali_file = os.path.join(
+                            *(
+                                os.path.relpath(
+                                    smali_file, self._decoded_apk_path
+                                ).split(os.path.sep)[1:]
+                            )
+                        )
+                        # Get only the smali files that are not part of known third
+                        # party libraries.
+                        if any(
+                                relative_smali_file.startswith(lib)
+                                for lib in libs_to_only
                         ):
                             filtered_smali_files.append(smali_file)
 

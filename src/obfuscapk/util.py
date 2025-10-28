@@ -223,6 +223,11 @@ def get_libs_to_ignore() -> List[str]:
         os.path.join(os.path.dirname(__file__), "resources", "libs_to_ignore.txt")
     )
 
+def get_libs_to_only() -> List[str]:
+    return get_non_empty_lines_from_file(
+        os.path.join(os.path.dirname(__file__), "resources", "libs_to_only.txt")
+    )
+
 
 # Adapted from https://github.com/reddr/axplorer
 def get_dangerous_api() -> List[str]:

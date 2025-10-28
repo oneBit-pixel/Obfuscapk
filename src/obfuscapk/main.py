@@ -58,6 +58,7 @@ def perform_obfuscation(
     key_password: str = None,
     ignore_packages_file: str = None,
     use_aapt2: bool = False,
+    only_libs: bool = False,
 ):
     """
     Apply the obfuscation techniques to an input application and generate an obfuscated
@@ -91,6 +92,7 @@ def perform_obfuscation(
     :param ignore_packages_file: The file containing the package names to be ignored
                                  during the obfuscation (one package name per line).
     :param use_aapt2 If True, use aapt2 for rebuild app
+    :param only_libs If True, 只混淆文件包含的文件夹
     """
 
     check_external_tool_dependencies()
@@ -114,6 +116,7 @@ def perform_obfuscation(
         key_password,
         ignore_packages_file,
         use_aapt2,
+        only_libs,
     )
 
     manager = ObfuscatorManager()
