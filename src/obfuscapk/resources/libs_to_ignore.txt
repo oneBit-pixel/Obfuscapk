@@ -30,7 +30,9 @@ com/adsdk/
 com/adsmogo/
 com/adtech/
 com/adwhirl/
+com/anything/
 com/adwo/
+com/alibaba/
 com/alibaba/fastjson/
 com/alibaba/mtl/
 com/alimama/mobile/
@@ -65,6 +67,9 @@ com/auth0/jwt/
 com/autonavi/
 com/aviary/
 com/avos/avoscloud/
+com/bykv/
+com/byted/
+com/bytedance/
 com/badlogic/
 com/baidu/android/
 com/baidu/appx/
@@ -363,6 +368,7 @@ javax/jmdns/
 javax/mail/
 javax/servlet/
 javax/ws/
+java/inject
 junit/
 kankan/wheel/
 me/apla/cordova/
