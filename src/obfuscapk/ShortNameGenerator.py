@@ -1,7 +1,7 @@
 import random
 import string
 
-class SimpleShortNameGenerator:
+class ShortNameGenerator:
     def __init__(self):
         self.identifier_map = {}
         self.used_names = set()
