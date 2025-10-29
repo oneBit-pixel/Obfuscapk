@@ -22,6 +22,13 @@ class ShortNameGenerator:
     def rename_field(self, field_name: str) -> str:
         if field_name not in self.identifier_map:
             short_name = self.to_base62(self.identifier_counter)
+
+            # 检查生成的短名称是否以数字开头
+            while short_name[0] in string.digits:
+                # 如果以数字开头，增加计数器并重新生成
+                self.identifier_counter += 1
+                short_name = self.to_base62(self.identifier_counter)
+
             self.identifier_map[field_name] = short_name
             self.identifier_counter += 1
         return self.identifier_map[field_name]
