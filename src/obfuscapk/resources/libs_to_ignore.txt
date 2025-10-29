@@ -32,6 +32,7 @@ com/adsmogo/
 com/adtech/
 com/adwhirl/
 com/anything/
+com/anythink/
 com/adwo/
 com/alibaba/
 com/alibaba/fastjson/
