@@ -6,7 +6,6 @@ from typing import List, Set
 from obfuscapk import obfuscator_category
 from obfuscapk import util
 from obfuscapk.obfuscation import Obfuscation
-from obfuscapk.ShortNameGenerator import ShortNameGenerator
 
 
 class MethodRename(obfuscator_category.IRenameObfuscator):
@@ -18,24 +17,23 @@ class MethodRename(obfuscator_category.IRenameObfuscator):
 
         self.ignore_package_names = []
 
-        self.gen = ShortNameGenerator()
-
-    def rename_method(self, field_name: str) -> str:
-        return self.gen.rename_field(field_name)
+    def rename_method(self, method_name: str) -> str:
+        method_md5 = util.get_string_md5(method_name)
+        return "m{0}".format(method_md5.lower()[:8])
 
     def rename_method_declarations(
-            self,
-            smali_files: List[str],
-            class_names_to_ignore: Set[str],
-            interactive: bool = False,
+        self,
+        smali_files: List[str],
+        class_names_to_ignore: Set[str],
+        interactive: bool = False,
     ) -> Set[str]:
         renamed_methods: Set[str] = set()
 
         # Search for method definitions that can be renamed.
         for smali_file in util.show_list_progress(
-                smali_files,
-                interactive=interactive,
-                description="Renaming method declarations",
+            smali_files,
+            interactive=interactive,
+            description="Renaming method declarations",
         ):
             with util.inplace_edit_file(smali_file) as (in_file, out_file):
                 skip_remaining_lines = False
@@ -55,10 +53,10 @@ class MethodRename(obfuscator_category.IRenameObfuscator):
                         elif class_match:
                             class_name = class_match.group("class_name")
                             if (
-                                    class_name in class_names_to_ignore
-                                    or class_name.startswith(
-                                tuple(self.ignore_package_names)
-                            )
+                                class_name in class_names_to_ignore
+                                or class_name.startswith(
+                                    tuple(self.ignore_package_names)
+                                )
                             ):
                                 # The methods of this class should be ignored when
                                 # renaming, so proceed with the next class.
@@ -78,11 +76,11 @@ class MethodRename(obfuscator_category.IRenameObfuscator):
 
                     # Avoid constructors, native and abstract methods.
                     if (
-                            method_match
-                            and "<init>" not in line
-                            and "<clinit>" not in line
-                            and " native " not in line
-                            and " abstract " not in line
+                        method_match
+                        and "<init>" not in line
+                        and "<clinit>" not in line
+                        and " native " not in line
+                        and " abstract " not in line
                     ):
                         method = "{method_name}({method_param}){method_return}".format(
                             method_name=method_match.group("method_name"),
@@ -111,15 +109,15 @@ class MethodRename(obfuscator_category.IRenameObfuscator):
         return renamed_methods
 
     def rename_method_invocations(
-            self,
-            smali_files: List[str],
-            methods_to_rename: Set[str],
-            interactive: bool = False,
+        self,
+        smali_files: List[str],
+        methods_to_rename: Set[str],
+        interactive: bool = False,
     ):
         for smali_file in util.show_list_progress(
-                smali_files,
-                interactive=interactive,
-                description="Renaming method invocations",
+            smali_files,
+            interactive=interactive,
+            description="Renaming method invocations",
         ):
             with util.inplace_edit_file(smali_file) as (in_file, out_file):
                 for line in in_file:
@@ -142,7 +140,7 @@ class MethodRename(obfuscator_category.IRenameObfuscator):
                         # here we have a list of methods whose declarations were already
                         # renamed.
                         if (
-                                "direct" in invoke_type or "static" in invoke_type
+                            "direct" in invoke_type or "static" in invoke_type
                         ) and method in methods_to_rename:
                             method_name = invoke_match.group("invoke_method")
                             out_file.write(

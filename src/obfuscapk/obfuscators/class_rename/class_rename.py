@@ -10,7 +10,6 @@ from xml.etree.cElementTree import Element
 from obfuscapk import obfuscator_category
 from obfuscapk import util
 from obfuscapk.obfuscation import Obfuscation
-from obfuscapk.ShortNameGenerator import ShortNameGenerator
 
 
 class ClassRename(obfuscator_category.IRenameObfuscator):
@@ -35,10 +34,9 @@ class ClassRename(obfuscator_category.IRenameObfuscator):
         # Will be populated before running the class rename obfuscator.
         self.class_name_to_smali_file: dict = {}
 
-        self.gen = ShortNameGenerator()
-
     def encrypt_identifier(self, identifier: str) -> str:
-        return self.gen.rename_field(identifier)
+        identifier_md5 = util.get_string_md5(identifier)
+        return "p{0}".format(identifier_md5.lower()[:8])
 
     def slash_to_dot_notation_for_classes(
         self, rename_transformations: Dict[str, str]
