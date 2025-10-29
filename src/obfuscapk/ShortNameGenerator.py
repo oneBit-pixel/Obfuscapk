@@ -1,34 +1,35 @@
+import random
 import string
 
-class ShortNameGenerator:
+class SimpleShortNameGenerator:
     def __init__(self):
         self.identifier_map = {}
-        self.identifier_counter = 1
-        # 将字母放在前面，确保不以数字开头
-        self.base62_chars = string.ascii_lowercase + string.ascii_uppercase + string.digits
-        self.base62_len = len(self.base62_chars)
+        self.used_names = set()
+        self.first_chars = string.ascii_lowercase + string.ascii_uppercase
+        self.all_chars = string.ascii_letters + string.digits
 
-    def to_base62(self, num: int) -> str:
-        """将数字转换为base62编码"""
-        if num == 0:
-            return self.base62_chars[0]
+    def _generate_random_name(self, length=2):
+        """生成随机短名称"""
+        while True:
+            # 第一个字符必须是字母
+            first_char = random.choice(self.first_chars)
 
-        result = []
-        while num > 0:
-            num, rem = divmod(num, self.base62_len)
-            result.append(self.base62_chars[rem])
-        return ''.join(reversed(result))
+            if length == 1:
+                name = first_char
+            else:
+                # 剩余字符可以是字母或数字
+                rest_chars = ''.join(random.choices(self.all_chars, k=length-1))
+                name = first_char + rest_chars
+
+            # 检查是否已使用
+            if name not in self.used_names:
+                self.used_names.add(name)
+                return name
 
     def rename_field(self, field_name: str) -> str:
         if field_name not in self.identifier_map:
-            short_name = self.to_base62(self.identifier_counter)
-
-            # 检查生成的短名称是否以数字开头
-            while short_name[0] in string.digits:
-                # 如果以数字开头，增加计数器并重新生成
-                self.identifier_counter += 1
-                short_name = self.to_base62(self.identifier_counter)
-
+            # 优先使用2字符名称，冲突时使用3字符
+            short_name = self._generate_random_name(2)
             self.identifier_map[field_name] = short_name
-            self.identifier_counter += 1
+
         return self.identifier_map[field_name]
